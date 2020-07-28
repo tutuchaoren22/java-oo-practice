@@ -15,7 +15,7 @@ public class Main {
 
     public static void operateHotSearch(){
         while (true){
-            System.out.println("欢迎来到热搜排行榜，你是?\n1.用户\n2.管理员\n3.推出");
+            System.out.println("欢迎来到热搜排行榜，你是?\n1.用户\n2.管理员\n3.退出");
             Scanner scanner = new Scanner(System.in);
             String choice = scanner.next();
             if(choice.equals("3")){
