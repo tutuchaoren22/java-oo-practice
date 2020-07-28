@@ -6,6 +6,9 @@ public class HotSearchManager {
     private List<HotSearch> hotSearchList;
     private List<Integer> hotSearchPrice;
 
+    public HotSearchManager() {
+    }
+
     public HotSearchManager(List<HotSearch> hotSearchList, List<Integer> hotSearchPrice) {
         this.hotSearchList = hotSearchList;
         this.hotSearchPrice = hotSearchPrice;
