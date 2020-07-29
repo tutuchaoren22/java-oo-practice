@@ -14,31 +14,13 @@ public class HotSearch {
         this.isSuperHotSearch = false;
     }
 
-    public HotSearch(String content, int vote) {
-        this.content = content;
-        this.vote = vote;
-        this.buyHotSearch = false;
-        this.isSuperHotSearch = false;
-    }
-
     public HotSearch(String content, boolean isSuperHotSearch) {
         this.content = content;
         this.isSuperHotSearch = isSuperHotSearch;
     }
 
-    public HotSearch(String content, int ranking, boolean buyHotSearch, int price) {
-        this.content = content;
-        this.ranking = ranking;
-        this.buyHotSearch = buyHotSearch;
-        this.price = price;
-    }
-
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public int getVote() {
@@ -75,10 +57,6 @@ public class HotSearch {
 
     public boolean isSuperHotSearch() {
         return isSuperHotSearch;
-    }
-
-    public void setSuperHotSearch(boolean superHotSearch) {
-        isSuperHotSearch = superHotSearch;
     }
 
     @Override

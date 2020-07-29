@@ -7,7 +7,7 @@ import com.twu.repositories.HotSearchRepository;
 
 import java.util.Scanner;
 
-public class AdminServices implements AdminServicesI {
+public class AdminService implements AdminServicesI {
 
     public void homePage(Administrator administrator) {
         System.out.println(String.format("你好,%s,你可以:", administrator.getName()));

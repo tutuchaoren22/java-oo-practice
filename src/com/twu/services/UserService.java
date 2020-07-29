@@ -28,19 +28,20 @@ public class UserService implements UserServiceI {
                     System.out.println(String.format("请输入你要投票的热搜票数：(你目前还有：%s票)", user.getVoteCount()));
                     int voteCount = scanner.nextInt();
                     HotSearchRepository.hotSearchManager.voteForHotSearch(user, contentToVote, voteCount);
-                    homePage(user);
                 } catch (VoteFailException e) {
                     System.out.println(e.getMessage());
                 }
+                homePage(user);
                 break;
             case "3":
                 System.out.println("请输入你要购买的热搜名称:");
                 String contentToBuy = scanner.next();
-                System.out.println("请输入你要投票的热搜名次:");
+                System.out.println("请输入你要购买的热搜名次:");
                 int ranking = scanner.nextInt();
-                System.out.println("请输入你要购买的价钱:");
+                System.out.println("请输入你要购买的热搜金额");
                 int price = scanner.nextInt();
                 HotSearchRepository.hotSearchManager.buyHotSearch(contentToBuy, ranking, price);
+                homePage(user);
                 break;
             case "4":
                 System.out.println("请输入你要添加的热搜内容：");
@@ -49,7 +50,7 @@ public class UserService implements UserServiceI {
                 homePage(user);
                 break;
             case "5":
-                System.out.println("why?");
+                System.out.println("你已退出！");
                 break;
             default:
                 throw new WrongInputException("选项输入错误");

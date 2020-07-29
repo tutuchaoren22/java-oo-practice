@@ -12,12 +12,7 @@ public class HotSearchManager {
     public HotSearchManager() {
     }
 
-    public HotSearchManager(List<HotSearch> hotSearchList) {
-        this.hotSearchList = hotSearchList;
-    }
-
     public List<HotSearch> getHotSearchList() {
-//        return this.hotSearchList.stream().sorted((h1, h2) -> h2.getVote() - h1.getVote()).collect(Collectors.toList());
         List<HotSearch> list = this.hotSearchList.stream().sorted((h1, h2) -> h2.getVote() - h1.getVote()).collect(Collectors.toList());
         List<HotSearch> willSortHotSearch = new ArrayList<>();
         for (HotSearch hotSearch : list) {
@@ -28,6 +23,7 @@ public class HotSearchManager {
         for (HotSearch hotSearch : willSortHotSearch) {
             list = sortByRanking(list, hotSearch);
         }
+        this.hotSearchList = list;
         return list;
     }
 
@@ -40,17 +36,10 @@ public class HotSearchManager {
         return newList;
     }
 
-    public void setHotSearchList(List<HotSearch> hotSearchList) {
-        this.hotSearchList = hotSearchList;
-    }
-
-    //热搜排行榜的方法
     //1.查看热搜
     public void checkHotSearchList() {
         List<HotSearch> hotSearchList = getHotSearchList();
-        hotSearchList.forEach(i -> {
-            System.out.println(hotSearchList.indexOf(i) + 1 + " " + i);
-        });//还没按是否买热搜排名
+        hotSearchList.forEach(i -> System.out.println(hotSearchList.indexOf(i) + 1 + " " + i));
     }
 
     //2.添加热搜
@@ -66,8 +55,9 @@ public class HotSearchManager {
     //4.给热搜投票
     public void voteForHotSearch(User user, String content, int vote) {
         if (vote > user.getVoteCount()) {
-            throw new VoteFailException("剩余票数不足");
+            throw new VoteFailException("投票失败：剩余票数不足");
         } else {
+            boolean voteSuccess = false;
             for (HotSearch hotSearch : this.hotSearchList) {
                 if (hotSearch.getContent().equals(content)) {
                     int voteToAdd = vote;
@@ -76,23 +66,30 @@ public class HotSearchManager {
                     }
                     hotSearch.setVote(hotSearch.getVote() + voteToAdd);
                     user.setVoteCount(user.getVoteCount() - vote);
+                    voteSuccess = true;
                     System.out.println("投票成功！");
                     break;
                 }
             }
+            if (!voteSuccess) {
+                throw new VoteFailException("投票失败：热搜不存在");
+            }
         }
-
     }
 
     //5.购买热搜
     public void buyHotSearch(String content, int ranking, int price) {
         boolean canBuyIt = false;
-        for (HotSearch hotSearch : this.getHotSearchList()) {
-            if (hotSearch.getContent().equals(content) && price > this.getHotSearchList().get(ranking - 1).getPrice()) {
+        List<HotSearch> hotSearchList = getHotSearchList();
+        for (HotSearch hotSearch : hotSearchList) {
+            if (hotSearch.getContent().equals(content) && price > hotSearchList.get(ranking - 1).getPrice()) {
                 canBuyIt = true;
                 hotSearch.setBuyHotSearch(true);
                 hotSearch.setRanking(ranking);
                 hotSearch.setPrice(price);
+                if (hotSearchList.get(ranking - 1).isBuyHotSearch()) {
+                    hotSearchList.remove(ranking - 1);
+                }
             }
         }
         String resultOfBuyHotSearch = canBuyIt ? "购买成功" : "购买失败";
