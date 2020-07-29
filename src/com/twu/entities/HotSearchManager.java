@@ -1,6 +1,9 @@
 package com.twu.entities;
 
+import com.twu.exception.VoteFailException;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class HotSearchManager {
@@ -35,7 +38,7 @@ public class HotSearchManager {
     //热搜排行榜的方法
     //1.查看热搜
     public void checkHotSearchList() {
-        this.hotSearchList.forEach(System.out::println);//还没按是否买热搜、投票顺序排名
+        this.hotSearchList.stream().sorted((h1, h2) -> h2.getVote()-h1.getVote()).forEach(System.out::println);//还没按是否买热搜排名
     }
     //2.添加热搜
     public void addHotSearch(HotSearch hotSearch){
@@ -48,15 +51,18 @@ public class HotSearchManager {
 
     //4.给热搜投票
     public void voteForHotSearch(User user,String content,int vote){
-        for (HotSearch hotSearch : this.hotSearchList) {
-            if(hotSearch.getContent().equals(content)){
-                hotSearch.setVote(hotSearch.getVote()+vote);
-                user.setVoteCount(user.getVoteCount()-vote);
-                break;
-            }else {
-                return;
+        if (vote > user.getVoteCount()){
+            throw new VoteFailException("剩余票数不足");
+        }else{
+            for (HotSearch hotSearch : this.hotSearchList) {
+                if(hotSearch.getContent().equals(content)){
+                    hotSearch.setVote(hotSearch.getVote() + vote);
+                    user.setVoteCount(user.getVoteCount() - vote);
+                    break;
+                }
             }
         }
+
     }
     //5.购买热搜
     public void buyHotSearch(String content,int rank){

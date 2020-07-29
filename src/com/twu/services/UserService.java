@@ -1,6 +1,5 @@
 package com.twu.services;
 
-import com.twu.entities.Administrator;
 import com.twu.entities.HotSearch;
 import com.twu.entities.User;
 import com.twu.repositories.HotSearchRepository;
