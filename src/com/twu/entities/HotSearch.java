@@ -3,6 +3,7 @@ package com.twu.entities;
 public class HotSearch {
     private String content;
     private int vote;
+    private int rank;
     private boolean hasBuyHotSearch;
     private boolean isSuperHotSearch;
 
@@ -20,9 +21,8 @@ public class HotSearch {
         this.isSuperHotSearch = false;
     }
 
-    public HotSearch(String content, int vote, boolean isSuperHotSearch) {
+    public HotSearch(String content, boolean isSuperHotSearch) {
         this.content = content;
-        this.vote = vote;
         this.isSuperHotSearch = isSuperHotSearch;
     }
 
@@ -60,6 +60,6 @@ public class HotSearch {
 
     @Override
     public String toString() {
-        return "content='" + content + '\'' + ", vote=" + vote ;
+        return content + " " + vote;
     }
 }

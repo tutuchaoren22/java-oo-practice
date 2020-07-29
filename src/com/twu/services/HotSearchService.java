@@ -2,6 +2,7 @@ package com.twu.services;
 
 import com.twu.entities.Administrator;
 import com.twu.entities.User;
+import com.twu.exception.WrongInputException;
 import com.twu.repositories.HotSearchRepository;
 import com.twu.repositories.HotSearchRepositoryI;
 
@@ -15,14 +16,18 @@ public class HotSearchService implements HotSearchServiceI {
     @Override
     public void operateHotSearch(){
         while (true){
-            System.out.println("欢迎来到热搜排行榜，你是?\n1.用户\n2.管理员\n3.退出");
-            Scanner scanner = new Scanner(System.in);
-            String choice = scanner.next();
-            if(choice.equals("3")){
-                System.out.println("系统已退出");
-                operateHotSearch();
+            try{
+                System.out.println("欢迎来到热搜排行榜，你是?\n1.用户\n2.管理员\n3.退出");
+                Scanner scanner = new Scanner(System.in);
+                String choice = scanner.next();
+                if(choice.equals("3")){
+                    System.out.println("系统已退出");
+                    operateHotSearch();
+                }
+                handle(choice);
+            }catch (WrongInputException e){
+                System.out.println(e.getMessage());
             }
-            handle(choice);
         }
     }
 
@@ -45,6 +50,8 @@ public class HotSearchService implements HotSearchServiceI {
                 System.out.println("密码输入错误");
                 operateHotSearch();
             }
+        }else {
+            throw new WrongInputException("选项输入错误");
         }
     }
 }
