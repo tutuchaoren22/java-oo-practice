@@ -2,6 +2,7 @@ package com.twu.services;
 
 import com.twu.entities.Administrator;
 import com.twu.entities.HotSearch;
+import com.twu.exception.WrongInputException;
 import com.twu.repositories.HotSearchRepository;
 
 import java.util.Scanner;
@@ -32,6 +33,8 @@ public class AdminServices implements AdminServicesI {
                 break;
             case "4":
                 break;
+            default:
+                throw new WrongInputException("选项输入错误");
         }
     }
 }

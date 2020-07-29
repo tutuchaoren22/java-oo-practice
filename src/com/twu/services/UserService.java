@@ -3,6 +3,7 @@ package com.twu.services;
 import com.twu.entities.HotSearch;
 import com.twu.entities.User;
 import com.twu.exception.VoteFailException;
+import com.twu.exception.WrongInputException;
 import com.twu.repositories.HotSearchRepository;
 
 import java.util.Scanner;
@@ -36,8 +37,10 @@ public class UserService implements UserServiceI {
                 System.out.println("请输入你要购买的热搜名称:");
                 String contentToBuy = scanner.next();
                 System.out.println("请输入你要投票的热搜名次:");
-                int rank = scanner.nextInt();
-                HotSearchRepository.hotSearchManager.buyHotSearch(contentToBuy, rank);
+                int ranking = scanner.nextInt();
+                System.out.println("请输入你要购买的价钱:");
+                int price = scanner.nextInt();
+                HotSearchRepository.hotSearchManager.buyHotSearch(contentToBuy, ranking, price);
                 break;
             case "4":
                 System.out.println("请输入你要添加的热搜内容：");
@@ -48,6 +51,8 @@ public class UserService implements UserServiceI {
             case "5":
                 System.out.println("why?");
                 break;
+            default:
+                throw new WrongInputException("选项输入错误");
         }
     }
 }

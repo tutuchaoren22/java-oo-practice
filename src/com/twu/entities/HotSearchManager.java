@@ -8,32 +8,41 @@ import java.util.stream.Collectors;
 
 public class HotSearchManager {
     private List<HotSearch> hotSearchList = new ArrayList<>();
-    private List<Integer> hotSearchPrice = new ArrayList<>();
 
     public HotSearchManager() {
     }
 
-    public HotSearchManager(List<HotSearch> hotSearchList, List<Integer> hotSearchPrice) {
+    public HotSearchManager(List<HotSearch> hotSearchList) {
         this.hotSearchList = hotSearchList;
-        this.hotSearchPrice = hotSearchPrice;
     }
 
     public List<HotSearch> getHotSearchList() {
-        return this.hotSearchList.stream().sorted((h1, h2) -> h2.getVote() - h1.getVote()).collect(Collectors.toList());
+//        return this.hotSearchList.stream().sorted((h1, h2) -> h2.getVote() - h1.getVote()).collect(Collectors.toList());
+        List<HotSearch> list = this.hotSearchList.stream().sorted((h1, h2) -> h2.getVote() - h1.getVote()).collect(Collectors.toList());
+        List<HotSearch> willSortHotSearch = new ArrayList<>();
+        for (HotSearch hotSearch : list) {
+            if (hotSearch.isBuyHotSearch()) {
+                willSortHotSearch.add(hotSearch);
+            }
+        }
+        for (HotSearch hotSearch : willSortHotSearch) {
+            list = sortByRanking(list, hotSearch);
+        }
+        return list;
+    }
+
+    public List<HotSearch> sortByRanking(List<HotSearch> list, HotSearch hotSearch) {
+        List<HotSearch> newList;
+        newList = new ArrayList<>(list.subList(0, hotSearch.getRanking() - 1));
+        newList.add(hotSearch);
+        newList.addAll(list.subList(hotSearch.getRanking() - 1, list.size()));
+        newList.remove(newList.lastIndexOf(hotSearch));
+        return newList;
     }
 
     public void setHotSearchList(List<HotSearch> hotSearchList) {
         this.hotSearchList = hotSearchList;
     }
-
-    public List<Integer> getHotSearchPrice() {
-        return hotSearchPrice;
-    }
-
-    public void setHotSearchPrice(List<Integer> hotSearchPrice) {
-        this.hotSearchPrice = hotSearchPrice;
-    }
-
 
     //热搜排行榜的方法
     //1.查看热搜
@@ -76,7 +85,17 @@ public class HotSearchManager {
     }
 
     //5.购买热搜
-    public void buyHotSearch(String content, int rank) {
-
+    public void buyHotSearch(String content, int ranking, int price) {
+        boolean canBuyIt = false;
+        for (HotSearch hotSearch : this.getHotSearchList()) {
+            if (hotSearch.getContent().equals(content) && price > this.getHotSearchList().get(ranking - 1).getPrice()) {
+                canBuyIt = true;
+                hotSearch.setBuyHotSearch(true);
+                hotSearch.setRanking(ranking);
+                hotSearch.setPrice(price);
+            }
+        }
+        String resultOfBuyHotSearch = canBuyIt ? "购买成功" : "购买失败";
+        System.out.println(resultOfBuyHotSearch);
     }
 }

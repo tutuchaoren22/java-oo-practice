@@ -3,27 +3,34 @@ package com.twu.entities;
 public class HotSearch {
     private String content;
     private int vote;
-    private int rank;
-    private boolean hasBuyHotSearch;
+    private int price;
+    private int ranking;
+    private boolean buyHotSearch;
     private boolean isSuperHotSearch;
 
     public HotSearch(String content) {
         this.content = content;
-        this.vote = 0;
-        this.hasBuyHotSearch = false;
+        this.buyHotSearch = false;
         this.isSuperHotSearch = false;
     }
 
     public HotSearch(String content, int vote) {
         this.content = content;
         this.vote = vote;
-        this.hasBuyHotSearch = false;
+        this.buyHotSearch = false;
         this.isSuperHotSearch = false;
     }
 
     public HotSearch(String content, boolean isSuperHotSearch) {
         this.content = content;
         this.isSuperHotSearch = isSuperHotSearch;
+    }
+
+    public HotSearch(String content, int ranking, boolean buyHotSearch, int price) {
+        this.content = content;
+        this.ranking = ranking;
+        this.buyHotSearch = buyHotSearch;
+        this.price = price;
     }
 
     public String getContent() {
@@ -42,12 +49,28 @@ public class HotSearch {
         this.vote = vote;
     }
 
-    public boolean isHasBuyHotSearch() {
-        return hasBuyHotSearch;
+    public int getPrice() {
+        return price;
     }
 
-    public void setHasBuyHotSearch(boolean hasBuyHotSearch) {
-        this.hasBuyHotSearch = hasBuyHotSearch;
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+
+    public boolean isBuyHotSearch() {
+        return buyHotSearch;
+    }
+
+    public void setBuyHotSearch(boolean buyHotSearch) {
+        this.buyHotSearch = buyHotSearch;
     }
 
     public boolean isSuperHotSearch() {
